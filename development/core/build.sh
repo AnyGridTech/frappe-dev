@@ -8,6 +8,10 @@ FILE_DIR="./index.sh"
 echo "Running $FILE_DIR"
 trap 'echo "Finished $FILE_DIR"' EXIT
 
+# Ask if wants to install erpnext
+echo "Do you want to install ERPNext? (y/n): "
+read -r INSTALL_ERPNEXT
+
 wait-for-it -t 120 mariadb:3306
 wait-for-it -t 120 redis-cache:6379
 wait-for-it -t 120 redis-queue:6379
@@ -46,12 +50,27 @@ MYSQL_ROOT_PASSWORD="root"
 echo "Creating new site named $SITE_NAME..."
 echo "Using MySQL root username: $MYSQL_ROOT_USERNAME"
 echo "Using MySQL root password: ${MYSQL_ROOT_PASSWORD:0:3}********"
-bench new-site --mariadb-user-host-login-scope='%' \
-  --admin-password=${MYSQL_ROOT_PASSWORD} \
-  --db-root-username=${MYSQL_ROOT_USERNAME} \
-  --db-root-password=${MYSQL_ROOT_PASSWORD} \
-  --install-app erpnext \
-  --set-default ${SITE_NAME}
+
+if [ "$INSTALL_ERPNEXT" != "y" ] && [ "$INSTALL_ERPNEXT" != "Y" ]; then
+  echo "Creating site installing ERPNext..."
+  bench new-site --mariadb-user-host-login-scope='%' \
+    --admin-password=${MYSQL_ROOT_PASSWORD} \
+    --db-root-username=${MYSQL_ROOT_USERNAME} \
+    --db-root-password=${MYSQL_ROOT_PASSWORD} \
+    --install-app erpnext \
+    --set-default ${SITE_NAME}
+
+  echo "✅ Site $SITE_NAME created successfully with ERPNext!"
+else
+  echo "Creating site without installing ERPNext..."
+  bench new-site --mariadb-user-host-login-scope='%' \
+    --admin-password=${MYSQL_ROOT_PASSWORD} \
+    --db-root-username=${MYSQL_ROOT_USERNAME} \
+    --db-root-password=${MYSQL_ROOT_PASSWORD} \
+    --set-default ${SITE_NAME}
+
+  echo "✅ Site $SITE_NAME created successfully without ERPNext!"
+fi
 
 bench --site "$SITE_NAME" set-config developer_mode 1
 bench --site "$SITE_NAME" clear-cache
