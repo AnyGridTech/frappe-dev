@@ -8,31 +8,59 @@ FILE_DIR="./index.sh"
 echo "Running $FILE_DIR"
 trap 'echo "Finished $FILE_DIR"' EXIT
 
+# Ask if wants to start build process
+read -rp "Do you want to start the build process? (y/n): " START_BUILD
+
+if [ "$START_BUILD" != "y" ] && [ "$START_BUILD" != "Y" ]; then
+  echo "Exiting execution as per user request."
+  exit 0
+fi
+
 # Ask if wants to install erpnext
-echo "Do you want to install ERPNext? (y/n): "
-read -r INSTALL_ERPNEXT
+read -rp "Do you want to install ERPNext? (y/n): " INSTALL_ERPNEXT
 
-wait-for-it -t 120 mariadb:3306
-wait-for-it -t 120 redis-cache:6379
-wait-for-it -t 120 redis-queue:6379
-
-echo "Starting bench setup..."
-bench init --skip-redis-config-generation frappe-bench
+# Check if frappe-bench folder exists
 
 BENCH_DIR="/workspace/development/frappe-bench"
+
+if [ ! -d "$BENCH_DIR" ]; then
+  echo "Starting bench setup..."
+  bench init --skip-redis-config-generation frappe-bench
+  echo "✅ Bench setup completed."
+else
+  echo "✅ Bench folder already exists, skipping bench init."
+fi
 
 cd "$BENCH_DIR"
 
 echo "Setting bench configurations"
 
-bench set-config -g db_host mariadb
-bench set-config -g redis_cache redis://redis-cache:6379
-bench set-config -g redis_queue redis://redis-queue:6379
-bench set-config -g redis_socketio redis://redis-queue:6379
+# Check if common_site_config.json already has the configurations
+common_site_config_path="$BENCH_DIR/sites/common_site_config.json"
+db_cfg='"db_host": "mariadb"'
+redis_cache_cfg='"redis_cache": "redis://redis-cache:6379"'
+redis_queue_cfg='"redis_queue": "redis://redis-queue:6379"'
+redis_socketio_cfg='"redis_socketio": "redis://redis-queue:6379"'
 
-echo "Generated common_site_config.json:"
-cat "$BENCH_DIR/sites/common_site_config.json"
-echo ""
+cfg_present=$(grep -q "$db_cfg" "$common_site_config_path" && \
+  grep -q "$redis_cache_cfg" "$common_site_config_path" && \
+  grep -q "$redis_queue_cfg" "$common_site_config_path" && \
+  grep -q "$redis_socketio_cfg" "$common_site_config_path" && \
+  echo "true" || echo "false")
+
+if [ "$cfg_present" == "false" ]; then 
+  echo "Adding configurations to common_site_config.json..."
+  bench set-config -g db_host mariadb
+  bench set-config -g redis_cache redis://redis-cache:6379
+  bench set-config -g redis_queue redis://redis-queue:6379
+  bench set-config -g redis_socketio redis://redis-queue:6379
+  echo "✅ Configurations added to common_site_config.json."
+  echo "Generated common_site_config.json:"
+  cat "$common_site_config_path"
+  echo ""
+else
+  echo "✅ common_site_config.json already has the required configurations. Skipping bench set-config."
+fi
 
 echo "Editing Procfile to remove lines containing the configuration from Redis"
 sed -i '/redis/d' ./Procfile
@@ -40,37 +68,28 @@ sed -i '/redis/d' ./Procfile
 SITE_NAME="development.localhost"
 
 if bench --site "$SITE_NAME" list-apps >/dev/null 2>&1; then
-  echo "✅ Site $SITE_NAME já existe, saindo da execução..."
+  echo "✅ Site $SITE_NAME already exists. Exiting execution..."
   exit 0
 fi
 
-MYSQL_ROOT_USERNAME="root"
-MYSQL_ROOT_PASSWORD="root"
+DB_ROOT_PASSWORD="123" # DO NOT CHANGE
+DB_ROOT_USERNAME="root" # DO NOT CHANGE
+ADMIN_PASSWORD="admin" # DO NOT CHANGE
 
 echo "Creating new site named $SITE_NAME..."
-echo "Using MySQL root username: $MYSQL_ROOT_USERNAME"
-echo "Using MySQL root password: ${MYSQL_ROOT_PASSWORD:0:3}********"
+echo "Using DB root username: $DB_ROOT_USERNAME"
+echo "Using DB root password: $DB_ROOT_PASSWORD"
+echo "Using Admin password: $ADMIN_PASSWORD"
 
-if [ "$INSTALL_ERPNEXT" != "y" ] && [ "$INSTALL_ERPNEXT" != "Y" ]; then
-  echo "Creating site installing ERPNext..."
-  bench new-site --mariadb-user-host-login-scope='%' \
-    --admin-password=${MYSQL_ROOT_PASSWORD} \
-    --db-root-username=${MYSQL_ROOT_USERNAME} \
-    --db-root-password=${MYSQL_ROOT_PASSWORD} \
-    --install-app erpnext \
-    --set-default ${SITE_NAME}
+echo "Creating site $SITE_NAME..."
 
-  echo "✅ Site $SITE_NAME created successfully with ERPNext!"
-else
-  echo "Creating site without installing ERPNext..."
-  bench new-site --mariadb-user-host-login-scope='%' \
-    --admin-password=${MYSQL_ROOT_PASSWORD} \
-    --db-root-username=${MYSQL_ROOT_USERNAME} \
-    --db-root-password=${MYSQL_ROOT_PASSWORD} \
-    --set-default ${SITE_NAME}
+bench new-site --mariadb-user-host-login-scope='%' \
+  --admin-password=${ADMIN_PASSWORD} \
+  --db-root-username=${DB_ROOT_USERNAME} \
+  --db-root-password=${DB_ROOT_PASSWORD} \
+  --set-default ${SITE_NAME}
 
-  echo "✅ Site $SITE_NAME created successfully without ERPNext!"
-fi
+echo "✅ Site $SITE_NAME created successfully!"
 
 bench --site "$SITE_NAME" set-config developer_mode 1
 bench --site "$SITE_NAME" clear-cache
@@ -120,4 +139,10 @@ echo "Submitting Setup Wizard Data on site ${SITE_NAME}..."
 bench --site "${SITE_NAME}" execute frappe.desk.page.setup_wizard.setup_wizard.setup_complete --kwargs "${KWARGS}" || true
 
 echo "✅ Site $SITE_NAME created successfully!"
+
+if [ "$INSTALL_ERPNEXT" == "y" ] || [ "$INSTALL_ERPNEXT" == "Y" ]; then
+  echo "Installing ERPNext..."
+  ./core/install-app.sh "$SITE_NAME" "erpnext" ""
+  echo "✅ ERPNext installation completed."
+fi
 
