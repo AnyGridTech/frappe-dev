@@ -1,9 +1,9 @@
 #!/bin/bash
-# ./core/index.sh
+# ./core/build.sh
 
 set -e
 
-FILE_DIR="./index.sh"
+FILE_DIR="./build.sh"
 
 echo "Running $FILE_DIR"
 trap 'echo "Finished $FILE_DIR"' EXIT
@@ -21,7 +21,9 @@ read -rp "Do you want to install ERPNext? (y/n): " INSTALL_ERPNEXT
 
 # Check if frappe-bench folder exists
 
-BENCH_DIR="/workspace/development/frappe-bench"
+DEV_DIR="/workspace/development"
+
+BENCH_DIR="$DEV_DIR/frappe-bench"
 
 if [ ! -d "$BENCH_DIR" ]; then
   echo "Starting bench setup..."
@@ -65,7 +67,7 @@ fi
 echo "Editing Procfile to remove lines containing the configuration from Redis"
 sed -i '/redis/d' ./Procfile
 
-SITE_NAME="development.localhost"
+SITE_NAME="dev.localhost"
 
 if bench --site "$SITE_NAME" list-apps >/dev/null 2>&1; then
   echo "✅ Site $SITE_NAME already exists. Exiting execution..."
@@ -91,58 +93,55 @@ bench new-site --mariadb-user-host-login-scope='%' \
 
 echo "✅ Site $SITE_NAME created successfully!"
 
+echo "Setting developer mode for site $SITE_NAME..."
 bench --site "$SITE_NAME" set-config developer_mode 1
-bench --site "$SITE_NAME" clear-cache
+echo "✅ Developer mode set."
 
+echo "Clearing cache for site $SITE_NAME..."
+bench --site "$SITE_NAME" clear-cache
+echo "✅ Cache cleared."
+
+echo "Starting setup wizard for site $SITE_NAME..."
 Y=$(date +%Y)
 FY_START="$Y-01-01"
 FY_END="$Y-12-31"
 
-# Use jq to safely construct the JSON body
-# The --arg flag handles escaping of any special characters in the password
-KWARGS=$(jq -n \
-  --arg currency "BRL" \
-  --arg country "Brazil" \
-  --arg timezone "America/Sao_Paulo" \
-  --arg language "English" \
-  --arg full_name "Luan Gabriel" \
-  --arg email "lgotcfg@gmail.com" \
-  --arg password "$MYSQL_ROOT_PASSWORD" \
-  --arg company_name "Growatt" \
-  --arg company_abbr "GRT" \
-  --arg chart_of_accounts "Brazil - Chart of Accounts" \
-  --arg fy_start_date "$FY_START" \
-  --arg fy_end_date "$FY_END" \
-  --argjson setup_demo 0 \
-  '{
-    "args": {
-      "currency": $currency,
-      "country": $country,
-      "timezone": $timezone,
-      "language": $language,
-      "full_name": $full_name,
-      "email": $email,
-      "password": $password,
-      "company_name": $company_name,
-      "company_abbr": $company_abbr,
-      "chart_of_accounts": $chart_of_accounts,
-      "fy_start_date": $fy_start_date,
-      "fy_end_date": $fy_end_date,
-      "setup_demo": $setup_demo
-    }
-  }')
+KWARGS=$(cat <<EOF
+{
+  "args": {
+    "currency": "BRL",
+    "country": "Brazil",
+    "timezone": "America/Sao_Paulo",
+    "language": "English",
+    "full_name": "Luan Gabriel",
+    "email": "lgotcfg@gmail.com",
+    "password": "$MYSQL_ROOT_PASSWORD",
+    "company_name": "Growatt",
+    "company_abbr": "GRT",
+    "chart_of_accounts": "Brazil - Chart of Accounts",
+    "fy_start_date": "$FY_START",
+    "fy_end_date": "$FY_END",
+    "setup_demo": 0
+  }
+}
+EOF
+)
 
-echo "KWARGS (senha oculta):"
-echo "$KWARGS" | jq '.args.password = "**********"'
+echo "KWARGS:"
+echo "$KWARGS"
 
 echo "Submitting Setup Wizard Data on site ${SITE_NAME}..."
 bench --site "${SITE_NAME}" execute frappe.desk.page.setup_wizard.setup_wizard.setup_complete --kwargs "${KWARGS}" || true
 
-echo "✅ Site $SITE_NAME created successfully!"
+echo "✅ Setup wizard completed successfully!"
+
 
 if [ "$INSTALL_ERPNEXT" == "y" ] || [ "$INSTALL_ERPNEXT" == "Y" ]; then
+  cd "$DEV_DIR/core"
   echo "Installing ERPNext..."
-  ./core/install-app.sh "$SITE_NAME" "erpnext" ""
+  ./install-app.sh "$SITE_NAME" erpnext
   echo "✅ ERPNext installation completed."
 fi
+
+echo "✅ Build process completed successfully!"
 

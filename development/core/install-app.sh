@@ -1,14 +1,18 @@
+#!/bin/bash
+# ./core/install-app.sh
 set -e
 
-echo "Running install_apps.sh..."
-trap 'echo "Finished install_apps.sh"' EXIT
+echo "Running install-app.sh..."
+trap 'echo "Finished install-app.sh"' EXIT
 
-APPS_DIR="/home/frappe/frappe-bench/apps"
-SITE_APPS_FILE="/home/frappe/frappe-bench/sites/apps.txt"
+DEV_DIR="/workspace/development"
+BENCH_DIR="$DEV_DIR/frappe-bench"
+APPS_DIR="$BENCH_DIR/apps"
+SITE_APPS_FILE="$BENCH_DIR/sites/apps.txt"
 
 SITE_NAME="$1"; shift
 APP_NAME="$1"; shift
-REPO_URL="$1"; shift
+REPO_URL="$1";
 
 if [ -z "$SITE_NAME" ]; then
   echo "Site name not provided. Exiting."
@@ -23,7 +27,7 @@ fi
 install_app() {
   local app_name=$1
   local repo_url=$2
-
+  cd "$BENCH_DIR" || exit 1
   if [ ! -d "$APPS_DIR/$app_name" ]; then
     echo "🔄 Getting app $app_name..."
     if [ -z "$repo_url" ]; then
@@ -45,5 +49,7 @@ install_app() {
   echo "✅ Building app $app_name..."
   bench build --app "$app_name"
 }
+
+echo "Installing app $APP_NAME from $REPO_URL on site $SITE_NAME..."
 
 install_app "$APP_NAME" "$REPO_URL"
