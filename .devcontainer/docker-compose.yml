@@ -50,7 +50,6 @@ services:
     command: sleep infinity
     environment:
       - SHELL=/bin/bash
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - ..:/workspace:cached
       # Enable if you require git cloning

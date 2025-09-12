@@ -1,5 +1,6 @@
 # Environment Variables
 .env
+.devcontainer/.env
 
 # mounted volume
 sites
