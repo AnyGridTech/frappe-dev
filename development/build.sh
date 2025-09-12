@@ -1,9 +1,9 @@
 #!/bin/bash
-# ./core/build.sh
+# build.sh
 
 set -e
 
-FILE_DIR="./build.sh"
+FILE_DIR="build.sh"
 
 echo "Running $FILE_DIR"
 trap 'echo "Finished $FILE_DIR"' EXIT
@@ -113,11 +113,11 @@ KWARGS=$(cat <<EOF
     "country": "Brazil",
     "timezone": "America/Sao_Paulo",
     "language": "English",
-    "full_name": "Luan Gabriel",
-    "email": "lgotcfg@gmail.com",
+    "full_name": "Developer",
+    "email": "dev@dev.com",
     "password": "$MYSQL_ROOT_PASSWORD",
-    "company_name": "Growatt",
-    "company_abbr": "GRT",
+    "company_name": "AnyGrid Tech",
+    "company_abbr": "AGT",
     "chart_of_accounts": "Brazil - Chart of Accounts",
     "fy_start_date": "$FY_START",
     "fy_end_date": "$FY_END",
@@ -137,11 +137,10 @@ echo "✅ Setup wizard completed successfully!"
 
 
 if [ "$INSTALL_ERPNEXT" == "y" ] || [ "$INSTALL_ERPNEXT" == "Y" ]; then
-  cd "$DEV_DIR/core"
+  cd "$DEV_DIR"
   echo "Installing ERPNext..."
-  ./install-app.sh "$SITE_NAME" erpnext
+  install-app.sh "$SITE_NAME" erpnext
   echo "✅ ERPNext installation completed."
 fi
 
 echo "✅ Build process completed successfully!"
-

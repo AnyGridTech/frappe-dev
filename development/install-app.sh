@@ -1,5 +1,5 @@
 #!/bin/bash
-# ./core/install-app.sh
+# install-app.sh
 set -e
 
 echo "Running install-app.sh..."

@@ -1,9 +1,9 @@
 #!/bin/bash
-# ./core/start.sh
+# start.sh
 
 set -e
 
-FILE_DIR="./start.sh"
+FILE_DIR="start.sh"
 echo "Running $FILE_DIR"
 trap 'echo "Finished $FILE_DIR"' EXIT
 
@@ -16,4 +16,5 @@ honcho start \
   socketio \
   watch \
   schedule \
-  worker
+  worker \
+  web

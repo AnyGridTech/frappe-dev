@@ -7,7 +7,8 @@ sites
 
 development/*
 !development/.vscode
-!development/core
+!development/*.sh
+
 
 # Pycharm
 .idea
