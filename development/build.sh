@@ -148,6 +148,10 @@ echo "To start the environment you must:"
 echo "1. cd $DEV_DIR"
 echo "2. bash start.sh"
 echo "To access at browser use http://$SITE_NAME:8000/"
+echo "The first access may take a while as it needs to compile assets."
+echo "So, please be patient."
+echo "Login using: dev@dev.com"
+echo "Password: dev"
 
 if [ "$START_ENV" == "y" ] || [ "$START_ENV" == "Y" ]; then
   echo "Starting the environment automatically now..."
