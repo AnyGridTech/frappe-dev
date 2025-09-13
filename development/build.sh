@@ -18,6 +18,8 @@ fi
 
 # Ask if wants to install erpnext
 read -rp "Do you want to install ERPNext? (y/n): " INSTALL_ERPNEXT
+read -rp "Do you want to install Payments? (y/n): " INSTALL_PAYMENTS
+read -rp "Do you want to install Learning Management System (LMS)? (y/n): " INSTALL_ELEARNING
 read -rp "Do you want to start the environment after the build? (y/n): " START_ENV
 
 # Check if frappe-bench folder exists
@@ -29,6 +31,7 @@ BENCH_DIR="$DEV_DIR/frappe-bench"
 if [ ! -d "$BENCH_DIR" ]; then
   echo "Starting bench setup..."
   bench init --skip-redis-config-generation frappe-bench
+  bench switch-to-branch version-15 frappe --upgrade
   echo "✅ Bench setup completed."
 else
   echo "✅ Bench folder already exists, skipping bench init."
@@ -106,8 +109,20 @@ cd "$DEV_DIR"
 
 if [ "$INSTALL_ERPNEXT" == "y" ] || [ "$INSTALL_ERPNEXT" == "Y" ]; then
   echo "Installing ERPNext..."
-  bash install-app.sh "$SITE_NAME" erpnext
+  bash install-app.sh "$SITE_NAME" erpnext https://github.com/frappe/erpnext version-15
   echo "✅ ERPNext installation completed."
+fi
+
+if [ "$INSTALL_PAYMENTS" == "y" ] || [ "$INSTALL_PAYMENTS" == "Y" ]; then
+  echo "Installing Payments..."
+  bash install-app.sh "$SITE_NAME" payments https://github.com/frappe/payments version-15
+  echo "✅ Payments installation completed."
+fi
+
+if [ "$INSTALL_ELEARNING" == "y" ] || [ "$INSTALL_ELEARNING" == "Y" ]; then
+  echo "Installing Learning Management System (LMS)..."
+  bash install-app.sh "$SITE_NAME" lms https://github.com/frappe/lms
+  echo "✅ LMS installation completed."
 fi
 
 echo "✅ Build process completed successfully!"
