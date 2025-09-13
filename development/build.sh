@@ -31,7 +31,6 @@ BENCH_DIR="$DEV_DIR/frappe-bench"
 if [ ! -d "$BENCH_DIR" ]; then
   echo "Starting bench setup..."
   bench init --skip-redis-config-generation frappe-bench
-  bench switch-to-branch version-15 frappe --upgrade
   echo "✅ Bench setup completed."
 else
   echo "✅ Bench folder already exists, skipping bench init."
