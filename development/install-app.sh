@@ -37,19 +37,21 @@ install_app() {
     fi
   else
     echo "✅ App $app_name already exists, skipping get-app."
+    echo "✅ Building app $app_name..."
+    bench build --app "$app_name"
   fi
 
-  if grep -q "^$app_name$" "$SITE_APPS_FILE"; then
-    echo "✅ App $app_name already listed in sites/apps.txt, skipping installation."
-  else
-    echo "✅ Installing app $app_name on site $SITE_NAME..."
-    bench --site "$SITE_NAME" install-app "$app_name"
-  fi
-
-  echo "✅ Building app $app_name..."
-  bench build --app "$app_name"
+  echo "✅ Installing app $app_name on site $SITE_NAME..."
+  bench --site "$SITE_NAME" install-app "$app_name"
 }
 
 echo "Installing app $APP_NAME from $REPO_URL on site $SITE_NAME..."
 
 install_app "$APP_NAME" "$REPO_URL"
+
+echo "Clearing website cache for site $SITE_NAME..."
+bench --site "$SITE_NAME" clear-cache
+bench --site "$SITE_NAME" clear-website-cache
+
+echo "Running migrations for site $SITE_NAME..."
+bench --site "$SITE_NAME" migrate

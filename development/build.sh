@@ -18,6 +18,7 @@ fi
 
 # Ask if wants to install erpnext
 read -rp "Do you want to install ERPNext? (y/n): " INSTALL_ERPNEXT
+read -rp "Do you want to start the environment after the build? (y/n): " START_ENV
 
 # Check if frappe-bench folder exists
 
@@ -101,46 +102,24 @@ echo "Clearing cache for site $SITE_NAME..."
 bench --site "$SITE_NAME" clear-cache
 echo "✅ Cache cleared."
 
-echo "Starting setup wizard for site $SITE_NAME..."
-Y=$(date +%Y)
-FY_START="$Y-01-01"
-FY_END="$Y-12-31"
-
-KWARGS=$(cat <<EOF
-{
-  "args": {
-    "currency": "BRL",
-    "country": "Brazil",
-    "timezone": "America/Sao_Paulo",
-    "language": "English",
-    "full_name": "Developer",
-    "email": "dev@dev.com",
-    "password": "$MYSQL_ROOT_PASSWORD",
-    "company_name": "AnyGrid Tech",
-    "company_abbr": "AGT",
-    "chart_of_accounts": "Brazil - Chart of Accounts",
-    "fy_start_date": "$FY_START",
-    "fy_end_date": "$FY_END",
-    "setup_demo": 0
-  }
-}
-EOF
-)
-
-echo "KWARGS:"
-echo "$KWARGS"
-
-echo "Submitting Setup Wizard Data on site ${SITE_NAME}..."
-bench --site "${SITE_NAME}" execute frappe.desk.page.setup_wizard.setup_wizard.setup_complete --kwargs "${KWARGS}" || true
-
-echo "✅ Setup wizard completed successfully!"
-
+cd "$DEV_DIR"
 
 if [ "$INSTALL_ERPNEXT" == "y" ] || [ "$INSTALL_ERPNEXT" == "Y" ]; then
-  cd "$DEV_DIR"
   echo "Installing ERPNext..."
-  install-app.sh "$SITE_NAME" erpnext
+  bash install-app.sh "$SITE_NAME" erpnext
   echo "✅ ERPNext installation completed."
 fi
 
 echo "✅ Build process completed successfully!"
+
+bash setup-wizard.sh "$SITE_NAME"
+
+echo "To start the environment you must:"
+echo "1. cd $DEV_DIR"
+echo "2. bash start.sh"
+echo "To access at browser use http://$SITE_NAME:8000/"
+
+if [ "$START_ENV" == "y" ] || [ "$START_ENV" == "Y" ]; then
+  echo "Starting the environment automatically now..."
+  bash start.sh
+fi
