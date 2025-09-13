@@ -13,7 +13,7 @@ SITE_APPS_FILE="$BENCH_DIR/sites/apps.txt"
 SITE_NAME="$1"; shift
 APP_NAME="$1"; shift
 REPO_URL="$1"; shift
-BRANCH="$1"; shift
+BRANCH="$1";
 
 if [ -z "$SITE_NAME" ]; then
   echo "❌ Site name not provided. Exiting."
