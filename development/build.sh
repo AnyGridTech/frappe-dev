@@ -21,6 +21,7 @@ read -rp "Use Frappe-bench v15? (y/n): " USE_BENCH_V15
 read -rp "Do you want to install ERPNext? (y/n): " INSTALL_ERPNEXT
 read -rp "Do you want to install Payments? (y/n): " INSTALL_PAYMENTS
 read -rp "Do you want to install Learning Management System (LMS)? (y/n): " INSTALL_ELEARNING
+read -rp "Do you want to install Frappe Comment AGT? (y/n): " INSTALL_COMMENT_AGT
 read -rp "Do you want to start the environment after the build? (y/n): " START_ENV
 
 # Check if frappe-bench folder exists
@@ -140,20 +141,24 @@ if [ "$INSTALL_ELEARNING" == "y" ] || [ "$INSTALL_ELEARNING" == "Y" ]; then
   echo "✅ LMS installation completed."
 fi
 
+if [ "$INSTALL_COMMENT_AGT" == "y" ] || [ "$INSTALL_COMMENT_AGT" == "Y" ]; then
+  echo "Installing Frappe Comment AGT..."
+  bash install-app.sh "$SITE_NAME" frappe_comment_agt https://github.com/AnyGridTech/frappe-comment-agt
+  echo "✅ Frappe Comment AGT installation completed."
+fi
+
 echo "✅ Build process completed successfully!"
 
-bash setup-wizard.sh "$SITE_NAME"
+USER_EMAIL="dev@dev.com"
+USER_PASSWORD="dev"
+
+bash setup-wizard.sh "$SITE_NAME" "$USER_EMAIL" "$USER_PASSWORD"
 
 echo "To start the environment you must:"
 echo "1. cd $DEV_DIR"
 echo "2. bash start.sh"
-echo "To access at browser use http://$SITE_NAME:8000/"
-echo "The first access may take a while as it needs to compile assets."
-echo "So, please be patient."
-echo "Login using: dev@dev.com"
-echo "Password: dev"
 
 if [ "$START_ENV" == "y" ] || [ "$START_ENV" == "Y" ]; then
   echo "Starting the environment automatically now..."
-  bash start.sh
+  bash start.sh "$SITE_NAME" "$USER_EMAIL" "$USER_PASSWORD"
 fi

@@ -12,6 +12,8 @@ BENCH_DIR="$DEV_DIR/frappe-bench"
 cd "$BENCH_DIR"
 
 SITE_NAME="$1"; shift
+USER_EMAIL="$1";
+USER_PASSWORD="$2";
 
 echo "Starting setup wizard for site $SITE_NAME..."
 Y=$(date +%Y)
@@ -26,8 +28,8 @@ KWARGS=$(cat <<EOF
     "timezone": "America/Sao_Paulo",
     "language": "English",
     "full_name": "Developer",
-    "email": "dev@dev.com",
-    "password": "dev",
+    "email": "$USER_EMAIL",
+    "password": "$USER_PASSWORD",
     "company_name": "AnyGrid Tech",
     "company_abbr": "AGT",
     "chart_of_accounts": "Brazil - Chart of Accounts",
