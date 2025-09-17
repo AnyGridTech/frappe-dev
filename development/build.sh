@@ -149,10 +149,9 @@ fi
 
 echo "✅ Build process completed successfully!"
 
-USER_EMAIL="dev@dev.com"
-USER_PASSWORD="dev"
+USER_EMAIL="administrator"
 
-bash setup-wizard.sh "$SITE_NAME" "$USER_EMAIL" "$USER_PASSWORD"
+bash setup-wizard.sh "$SITE_NAME" "$USER_EMAIL" "$ADMIN_PASSWORD"
 
 echo "To start the environment you must:"
 echo "1. cd $DEV_DIR"

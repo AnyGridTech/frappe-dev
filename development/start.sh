@@ -25,8 +25,13 @@ if [ -n "$SITE_NAME" ]; then
 fi
 
 if [ -n "$USER_EMAIL" ] && [ -n "$USER_PASSWORD" ]; then
-  echo "Login using: $USER_EMAIL"
-  echo "Password: $USER_PASSWORD"
+  echo "Recommended login credentials."
+  echo "-> Email: $USER_EMAIL"
+  echo "-> Password: $USER_PASSWORD"
+else 
+  echo "Please, login as administrator to enable all features."
+  echo "-> Email: administrator"
+  echo "-> Password: admin"
 fi
 
 honcho start \
