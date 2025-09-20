@@ -28,6 +28,7 @@ This setup allows developers to code directly from VSCode while the Frappe bench
 - [Getting Started](#getting_started)
 - [Scripts](#scripts)
 - [Usage](#usage)
+- [Create your first custom app](#create_your_first_custom_app)
 - [Deployment](#deployment)
 - [Built Using](#built_using)
 - [Authors](#authors)
@@ -72,17 +73,22 @@ The goal is to allow **developers to focus only on coding apps**, without worryi
 ### Installing
 1. Clone this repository.
 2. Open it in **VSCode**.
-3. When prompted, reopen in **Dev Container**.  
+3. Make sure to install the **Recommended Extensions**.
+4. Make sure to have the **Docker Daemon running** on your machine.
+5. Reopen the project in **Dev Container**.
+  There are three ways to do it:
+  5.1. Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
    VSCode will use `devcontainer.json` and `docker-compose.yml` to build the environment.
-4. Once inside, run:
-
+  5.2. Open the command palette (Ctrl+Shift+P) and select 'Dev Containers: Reopen in Container'.
+  5.3. When opening the project you may see in the bottom right prompting something like 'reopen in **Dev Container**'.
+6. Once inside the container terminal, run:
 ```bash
 bash build.sh
 ```
 
 This will initialize bench, create a default site (`dev.localhost`), and optionally install apps like ERPNext, Payments, LMS, or Frappe Comment AGT.
 
-> To initialize the bench, please refer to the [Usage Section](#usage) for more details.
+> To initialize the project bench and be able to use it, please refer to the [Usage Section](#usage) for more details.
 
 ---
 
@@ -159,7 +165,11 @@ This will initialize bench, create a default site (`dev.localhost`), and optiona
 ---
 
 ## 🎈 Usage <a name="usage"></a>
-- Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.
+- Reopen the project in **Dev Container**. There are three ways to do it:
+  1. Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
+   VSCode will use `devcontainer.json` and `docker-compose.yml` to build the environment.
+  2. Open the command palette (Ctrl+Shift+P) and select 'Dev Containers: Reopen in Container'.
+  3. When opening the project you may see in the bottom right prompting something like 'reopen in **Dev Container**'.
 - Build the environment (if not done yet):
   ```bash
   bash build.sh
@@ -168,13 +178,44 @@ This will initialize bench, create a default site (`dev.localhost`), and optiona
   ```bash
   bash start.sh dev.localhost
   ```
-- Access your site at:  
+- Access your site at (First access may take some minutes as Frappe is building assets):  
   [http://dev.localhost:8000](http://dev.localhost:8000)  
 - Default login (if not overridden):  
   ```
   Email: administrator
   Password: admin
   ```
+
+> Always use the `start.sh` script to start the environment, as it will ensure all necessary services are running.
+
+> Always log in using the Administrator user to have full access to all features.
+
+> To create additional sites, use the `bench new-site <site_name>` command inside the container terminal.
+
+## 🧩 Create your first custom app <a name="create_your_first_custom_app"></a>
+1. Make sure you are inside the Dev Container terminal. In case you are not, please refer to the [Usage Section](#usage) for more details.
+2. Run the create a new app script:
+   ```bash
+   bash create-app.sh my_custom_app dev.localhost
+   ```
+
+> This process will create a new app named `my_custom_app` and install it into the `dev.localhost` site. You can see it at frappe-bench/apps/my_custom_app.
+
+> Make sure to login using the `Administrator` user to have full access to all features.
+
+> When creating a new doctype for your custom app, make sure to set the module name equal to your custom app name (e.g., `my_custom_app`) to ensure it is saved within your app.
+
+> When creating a new doctype, make sure to set the `custom` checkbox to **false** to ensure it is saved within your app. Otherwise, it will be saved as a custom doctype in the site database and not part of your app files.
+
+> Do not use the native UI for Client or Server scripts, as they will be saved as custom scripts in the site database and not part of your app files. Instead, create a new file in your app directory (e.g., `my_custom_app/my_custom_app/public/js/my_script.js`). For server scripts, create a Python file in your app directory (e.g., `my_custom_app/my_custom_app/my_server_script.py`) and then import it in the appropriate hooks at `my_custom_app/my_custom_app/hooks.py`.
+
+> After making changes to your app, there are moments that you may need to run:
+   ```bash
+   bench migrate
+   bench clear-cache
+   ```
+
+> After you finish developing your app, upload it to your preferred Git repository (e.g., GitHub, GitLab, Bitbucket) to keep it safe and share it with others.
 
 ---
 
