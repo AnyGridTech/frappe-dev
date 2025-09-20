@@ -168,10 +168,10 @@ This will initialize bench, create a default site (`dev.localhost`), and optiona
 
 ## 🎈 Usage <a name="usage"></a>
 - Reopen the project in **Dev Container**. There are three ways to do it:
-  1. Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
+  - Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
    VSCode will use `devcontainer.json` and `docker-compose.yml` to build the environment.
-  2. Open the command palette (Ctrl+Shift+P) and select 'Dev Containers: Reopen in Container'.
-  3. When opening the project you may see in the bottom right prompting something like 'reopen in **Dev Container**'.
+  - Open the command palette (Ctrl+Shift+P) and select 'Dev Containers: Reopen in Container'.
+  - When opening the project you may see in the bottom right prompting something like 'reopen in **Dev Container**'.
 - Build the environment (if not done yet):
   ```bash
   bash build.sh
