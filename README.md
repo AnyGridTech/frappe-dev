@@ -1,4 +1,6 @@
-# 🚀 Frappe Custom Apps Development Environment
+<p align="center">
+  # 🚀 Frappe Custom Apps Development Environment
+</p>
 
 <p align="center">
   <a href="" rel="noopener">
