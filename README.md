@@ -17,8 +17,8 @@
 ---
 
 <p align="center">
-Development environment for building **custom Frappe applications**, designed to run inside a **Docker container** with full integration into **VSCode Dev Containers**.  
-This setup allows developers to code directly from VSCode while the Frappe bench and ERPNext ecosystem run inside the container.
+Development environment for building <strong>Custom Frappe applications</strong>, designed to run inside a <strong>Docker Container</strong> with full integration into <strong>VSCode Dev Containers</strong>.  
+This setup allows developers to code directly from VSCode while the Frappe bench, ERPNext and many more run inside the container.
 </p>
 
 ---
