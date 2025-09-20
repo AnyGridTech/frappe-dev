@@ -36,6 +36,7 @@ This setup allows developers to code directly from VSCode while the Frappe bench
 - [Deployment](#deployment)
 - [Built Using](#built_using)
 - [Authors](#authors)
+- [Contributing](#contributing)
 - [Acknowledgments](#acknowledgements)
 
 ---
@@ -252,6 +253,13 @@ This setup is primarily for **development**. Therefore, it is highly **NOT RECOM
 
 ## ✍️ Authors <a name = "authors"></a>
 - **AnyGrid Tech** – Environment design & automation
+
+---
+
+## 🤝 Contributing <a name = "contributing"></a>
+
+This project is a community effort.  
+Contributions are welcome! Open an issue or PR if you find missing or incorrect types.
 
 ---
 
