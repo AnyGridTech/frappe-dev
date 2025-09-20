@@ -79,10 +79,10 @@ The goal is to allow **developers to focus only on coding apps**, without worryi
 4. Make sure to have the **Docker Daemon running** on your machine.
 5. Reopen the project in **Dev Container**.
   There are three ways to do it:
-  5.1. Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
+   - Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
    VSCode will use `devcontainer.json` and `docker-compose.yml` to build the environment.
-  5.2. Open the command palette (Ctrl+Shift+P) and select 'Dev Containers: Reopen in Container'.
-  5.3. When opening the project you may see in the bottom right prompting something like 'reopen in **Dev Container**'.
+   - Open the command palette (Ctrl+Shift+P) and select 'Dev Containers: Reopen in Container'.
+   - When opening the project you may see in the bottom right prompting something like 'reopen in **Dev Container**'.
 6. Once inside the container terminal, run:
 ```bash
 bash build.sh
