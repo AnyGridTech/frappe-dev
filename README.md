@@ -29,6 +29,8 @@ This setup allows developers to code directly from VSCode while the Frappe bench
 - [Scripts](#scripts)
 - [Usage](#usage)
 - [Create your first custom app](#create_your_first_custom_app)
+- [Installing a custom app](#installing_a_custom_app)
+- [Development Tips](#development_tips)
 - [Deployment](#deployment)
 - [Built Using](#built_using)
 - [Authors](#authors)
@@ -209,20 +211,33 @@ This will initialize bench, create a default site (`dev.localhost`), and optiona
 
 > Do not use the native UI for Client or Server scripts, as they will be saved as custom scripts in the site database and not part of your app files. Instead, create a new file in your app directory (e.g., `my_custom_app/my_custom_app/public/js/my_script.js`). For server scripts, create a Python file in your app directory (e.g., `my_custom_app/my_custom_app/my_server_script.py`) and then import it in the appropriate hooks at `my_custom_app/my_custom_app/hooks.py`.
 
-> After making changes to your app, there are moments that you may need to run:
-   ```bash
-   bench migrate
-   bench clear-cache
-   ```
+> After making changes to your app, it is possible that you may need to run `bench migrate` and `bench clear-cache` to see the changes reflected in the site. But that should not happen often.
 
 > After you finish developing your app, upload it to your preferred Git repository (e.g., GitHub, GitLab, Bitbucket) to keep it safe and share it with others.
+
+## 🧩 Installing a custom app <a name="installing_a_custom_app"></a>
+In case you want to install an external custom app from a Git repository into your site, use the `install-app.sh` script. For example:
+  ```bash
+  bash install-app.sh dev.localhost my_custom_app_name https://github.com/your_custom_app_repo.git branch_name
+  ```
+
+> This will clone the app from the given repository/branch and install it into the `dev.localhost` site. If you don't provide a branch name, it will default to the main branch.
+
+## 🛠️ Development Tips <a name="development_tips"></a>
+
+- Use VSCode extensions for Python, JavaScript, and SQL to enhance your coding experience.
+- Create a Git repository for your custom app to track changes and collaborate with others. The git repository for you custom app must be initialized inside the `frappe-bench/apps/my_custom_app` folder. Do not commit this project root together with your app code to avoid installation issues when installing your app in other sites.
+- Make sure to login using the `Administrator` user and `admin` password to have full access to all features.
+- When creating a new doctype for your custom app, make sure to set the module name equal to your custom app name (e.g., `my_custom_app`) to ensure it is saved within your app.
+- When creating a **new doctype**, make sure to set the `custom` checkbox to **false** to ensure it is saved within your app. Otherwise, it will be saved as a custom doctype in the site database and not part of your app files.
+- **DO NOT** use the native UI for **Client** or **Server** scripts, otherwise these scripts will be saved as custom scripts in the site database and not part of your app files. **You don't want that when developing an app!** For client scripts, your .js or .ts files at `my_custom_app/my_custom_app/public/js/` (e.g., `my_custom_app/my_custom_app/public/js/my_first_script.js`). For server scripts, create your .py files at `my_custom_app/my_custom_app/` (e.g., `my_custom_app/my_custom_app/my_first_server_script.py`) and then import them in the appropriate hooks at the hooks.py file located at `frappe-bench/apps/my_custom_app/my_custom_app/hooks.py`.
 
 ---
 
 ## 🚀 Deployment <a name="deployment"></a>
 This setup is primarily for **development**. Therefore, it is highly **NOT RECOMMENDED** for production.
 
----
+--- 
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 - [Frappe](https://frappeframework.com/) – App framework
