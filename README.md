@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="" alt="Project logo"></a>
+ <img src="LOGO.png" alt="Project logo"></a>
 </p>
 
 <div align="center">
