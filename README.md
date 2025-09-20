@@ -82,6 +82,8 @@ bash build.sh
 
 This will initialize bench, create a default site (`dev.localhost`), and optionally install apps like ERPNext, Payments, LMS, or Frappe Comment AGT.
 
+> To initialize the bench, please refer to the [Usage Section](#usage) for more details.
+
 ---
 
 ## 📜 Scripts <a name="scripts"></a>
