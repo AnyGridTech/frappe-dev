@@ -1,6 +1,6 @@
-<p align="center">
+<h2 align="center">
   # 🚀 Frappe Custom Apps Development Environment
-</p>
+</h2>
 
 <p align="center">
   <a href="" rel="noopener">
