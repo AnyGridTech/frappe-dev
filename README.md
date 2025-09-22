@@ -1,12 +1,14 @@
+<h1 align="center">
+  🚀 Frappe Custom Apps Development Environment
+</h1>
+
 <p align="center">
   <a href="" rel="noopener">
     <img width=200px height=200px src="LOGO.png" alt="Project logo">
   </a>
 </p>
 
-<h1 align="center">
-  🚀 Frappe Custom Apps Development Environment
-</h1>
+<h3 align="center">@anygridtech/frappe-dev</h3>
 
 <div align="center">
 
@@ -20,6 +22,7 @@
 <p align="center">
 Development environment for building <strong>Custom Frappe applications</strong>, designed to run inside a <strong>Docker Container</strong> with full integration into <strong>VSCode Dev Containers</strong>.  
 This setup allows developers to code directly from VSCode while the Frappe bench, ERPNext and many more run inside the container.
+<br>
 </p>
 
 ---
