@@ -1,11 +1,12 @@
+<p align="center">
+  <a href="" rel="noopener">
+    <img width=200px height=200px src="LOGO.png" alt="Project logo">
+  </a>
+</p>
+
 <h1 align="center">
   🚀 Frappe Custom Apps Development Environment
 </h1>
-
-<p align="center">
-  <a href="" rel="noopener">
- <img src="LOGO.png" alt="Project logo"></a>
-</p>
 
 <div align="center">
 
