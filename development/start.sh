@@ -69,13 +69,8 @@ for TSC_DIR in "${TSC_DIRS[@]}"; do
   echo "> $TSC_DIR"
   echo "Starting tsc --watch"
   cd "$TSC_DIR"
-  npx tsc --watch --preserveWatchOutput &
+  npx tsc --watch &
   sleep 20
-  # (
-  #   cd "$TSC_DIR"
-  #   npx tsc --watch --preserveWatchOutput
-  #   sleep 5
-  # ) &
   TSC_PIDS+=($!)
 done
 
