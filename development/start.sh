@@ -34,6 +34,54 @@ else
   echo "-> Password: admin"
 fi
 
+# função de cleanup
+cleanup() {
+  echo "Shutting down tsc watchers..."
+  for pid in "${TSC_PIDS[@]}"; do
+    kill "$pid" 2>/dev/null || true
+  done
+  echo "Finished $FILE_DIR"
+}
+trap cleanup EXIT
+
+echo "Starting TypeScript compilers in watch mode..."
+# 👉 Loop: inicia tsc --watch em todo app que tiver tsconfig.json em /my_app/public
+
+TSC_DIRS=()
+
+for APP in "$BENCH_DIR"/apps/*; do
+  APP_NAME=$(basename "$APP")
+  PUBLIC_DIR="$APP/$APP_NAME/public"
+  echo "> $PUBLIC_DIR"
+  echo "Checking for tsconfig.json"
+  if [ -f "$PUBLIC_DIR/tsconfig.json" ]; then
+    echo "Found tsconfig.json in $APP_NAME. Adding to watch list."
+    TSC_DIRS+=("$PUBLIC_DIR")
+  else
+    echo "No tsconfig.json found in $APP_NAME. Skipping."
+  fi
+  echo "------------------------------------"
+done
+
+TSC_PIDS=()
+
+for TSC_DIR in "${TSC_DIRS[@]}"; do
+  echo "> $TSC_DIR"
+  echo "Starting tsc --watch"
+  cd "$TSC_DIR"
+  npx tsc --watch --preserveWatchOutput &
+  sleep 20
+  # (
+  #   cd "$TSC_DIR"
+  #   npx tsc --watch --preserveWatchOutput
+  #   sleep 5
+  # ) &
+  TSC_PIDS+=($!)
+done
+
+cd "$BENCH_DIR"
+
+# 👉 inicia o honcho
 honcho start \
   socketio \
   watch \
