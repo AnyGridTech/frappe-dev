@@ -173,6 +173,17 @@ This will initialize bench, create a default site (`dev.localhost`), and optiona
 
 ---
 
+### 🛠 Fix all `*.sh` files at once
+- Shell scripts created or edited on **Windows** may contain carriage return characters (`\r`).  
+  These characters cause errors like:
+  - `$'\r': command not found`  
+  - syntax errors (e.g., near `fi`).  
+- To fix **all `.sh` files** in your project at once, run:  
+  ```bash
+  find /workspace/development -type f -name '*.sh' -exec sed -i 's/\r$//' {} +
+
+---
+
 ## 🎈 Usage <a name="usage"></a>
 - Reopen the project in **Dev Container**. There are three ways to do it:
   - Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
