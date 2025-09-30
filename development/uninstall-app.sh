@@ -14,7 +14,7 @@ SITE_NAME="$1"
 APP_NAME="$2"
 
 
-echo "Uninstalling the app: $APP_NAME"
+echo "Uninstalling app: $APP_NAME"
 
 cd "$BENCH_DIR"
 
