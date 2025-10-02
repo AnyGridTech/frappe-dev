@@ -133,6 +133,9 @@ This will initialize bench, create a default site (`dev.localhost`), and optiona
 
 ## 📜 Scripts <a name="scripts"></a>
 
+## <site_name> example: ````dev.localhost```
+
+
 > All scripts are located in the project root and can be executed from within the Dev Container terminal. They will not work on the host machine directly, you must be inside the container.
 
 ### 🔨 `build.sh`
@@ -167,7 +170,16 @@ This will initialize bench, create a default site (`dev.localhost`), and optiona
   ```bash
   bash install-app.sh <site_name> <app_name> <repo_url> <branch>
   ```
+  ## Examples:
 
+  ```bash
+  bash install-app.sh dev.localhost frappe_agt https://github.com/AnyGridTech/frappe_agt
+  ```
+
+  ```bash
+  bash install-app.sh dev.localhost frappe_agt https://github.com/AnyGridTech/frappe_agt main
+  ```
+  
 ---
 
 ### 🧹 `uninstall-app.sh`
