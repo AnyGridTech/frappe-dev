@@ -17,13 +17,11 @@ if [ "$START_BUILD" != "y" ] && [ "$START_BUILD" != "Y" ]; then
 fi
 
 # Ask if wants to install erpnext
-read -rp "Use Frappe-bench v15? (y/n): " USE_BENCH_V15
+read -rp "Use Frappe-bench v15 (Recommended)? (y/n): " USE_BENCH_V15
 read -rp "Do you want to install ERPNext? (y/n): " INSTALL_ERPNEXT
 read -rp "Do you want to install Payments? (y/n): " INSTALL_PAYMENTS
 read -rp "Do you want to install Learning Management System (LMS)? (y/n): " INSTALL_ELEARNING
 read -rp "Do you want to install Frappe Comment AGT? (y/n): " INSTALL_COMMENT_AGT
-read -rp "Do you want to start the environment after the build? (y/n): " START_ENV
-
 # Check if frappe-bench folder exists
 
 DEV_DIR="/workspace/development"
@@ -153,11 +151,8 @@ USER_EMAIL="administrator"
 
 bash setup-wizard.sh "$SITE_NAME" "$USER_EMAIL" "$ADMIN_PASSWORD"
 
-echo "To start the environment you must:"
-echo "1. cd $DEV_DIR"
-echo "2. bash start.sh"
-
-if [ "$START_ENV" == "y" ] || [ "$START_ENV" == "Y" ]; then
-  echo "Starting the environment automatically now..."
-  bash start.sh "$SITE_NAME" "$USER_EMAIL" "$USER_PASSWORD"
-fi
+echo "To start the environment on VSCode (Recommended):"
+echo "1. Open Debug panel (Ctrl+Shift+D)"
+echo "2. Select 'Honcho + Web debug' configuration"
+echo "3. Click the green play button (Start Debugging) or press F5"
+echo ""

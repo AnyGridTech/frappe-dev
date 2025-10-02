@@ -193,6 +193,7 @@ This will initialize bench, create a default site (`dev.localhost`), and optiona
 ---
 
 ### ▶️ `start.sh`
+- Deprecated! Use `Honcho + Web debug` configuration in VSCode Debug panel (Ctrl+Shift+D).
 - Starts Frappe services via `honcho`.
 - Runs all background processes: socketio, watch, schedule, worker, and web.
 - Displays the login URL and recommended credentials.
