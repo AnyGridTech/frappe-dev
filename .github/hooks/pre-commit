@@ -1,0 +1,12 @@
+#!/bin/sh
+# .github/hooks/pre-commit
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.sh$')
+
+if [ -n "$FILES" ]; then
+  echo "🔧 Corrigindo finais de linha (CRLF → LF) nos arquivos .sh"
+  for file in $FILES; do
+    sed -i 's/\r$//' "$file"
+    git add "$file"
+  done
+fi
