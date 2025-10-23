@@ -49,19 +49,20 @@ echo "Starting TypeScript compilers in watch mode..."
 
 TSC_DIRS=()
 
-for APP in "$BENCH_DIR"/apps/*; do
-  APP_NAME=$(basename "$APP")
-  PUBLIC_DIR="$APP/$APP_NAME/public"
-  echo "> $PUBLIC_DIR"
-  echo "Checking for tsconfig.json"
-  if [ -f "$PUBLIC_DIR/tsconfig.json" ]; then
-    echo "Found tsconfig.json in $APP_NAME. Adding to watch list."
-    TSC_DIRS+=("$PUBLIC_DIR")
-  else
-    echo "No tsconfig.json found in $APP_NAME. Skipping."
-  fi
-  echo "------------------------------------"
-done
+echo "Scanning for tsconfig.json files..."
+
+# Find all tsconfig.json files in app directories
+# Look in: app_name/public/tsconfig.json and app_name/*/doctype/*/tsconfig.json
+while IFS= read -r tsconfig_path; do
+  tsc_dir=$(dirname "$tsconfig_path")
+  echo "Found tsconfig.json at: $tsc_dir"
+  TSC_DIRS+=("$tsc_dir")
+done < <(find "$BENCH_DIR/apps" -type f -name "tsconfig.json" \
+  \( -path "*/*/public/tsconfig.json" -o -path "*/*/doctype/*/tsconfig.json" \) 2>/dev/null)
+
+echo "------------------------------------"
+echo "Total tsconfig.json files found: ${#TSC_DIRS[@]}"
+echo "------------------------------------"
 
 TSC_PIDS=()
 
@@ -70,7 +71,7 @@ for TSC_DIR in "${TSC_DIRS[@]}"; do
   echo "Starting tsc --watch"
   cd "$TSC_DIR"
   npx tsc --watch &
-  sleep 20
+  sleep 2
   TSC_PIDS+=($!)
 done
 
