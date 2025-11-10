@@ -17,6 +17,72 @@
         "showReuseMessage": false,
         "close": true
       }
+    },
+    {
+      "label": "Start Frappe Server",
+      "type": "shell",
+      "command": "bash start.sh",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "terminals"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Open App Development Folder",
+      "type": "shell",
+      "command": "cd frappe-bench/apps/${input:appName} && exec bash",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "terminals"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Frappe Watch",
+      "type": "shell",
+      "command": "npx frappe-watch",
+      "isBackground": true,
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": false,
+        "group": "terminals"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start All Development Terminals",
+      "dependsOn": [
+        "Start Frappe Server",
+        "Open App Development Folder",
+        "Start Frappe Watch"
+      ],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "appName",
+      "type": "promptString",
+      "description": "Enter the app folder name (e.g., frappe_brazil_invoice)",
+      "default": "frappe_brazil_invoice"
     }
   ]
 }
