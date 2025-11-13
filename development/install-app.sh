@@ -1,5 +1,6 @@
 #!/bin/bash
 # install-app.sh
+#bash install-app.sh <site_name> <app_name> <repo_url> <branch>
 set -e
 
 echo "Running install-app.sh..."
