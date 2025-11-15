@@ -53,7 +53,7 @@
     {
       "label": "Start Frappe Watch",
       "type": "shell",
-      "command": "npx frappe-watch",
+      "command": "cd frappe-bench/apps/${input:appName}/${input:appName} && npx frappe-watch --bundle",
       "isBackground": true,
       "presentation": {
         "echo": true,
