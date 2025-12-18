@@ -116,7 +116,67 @@ Your site will be available at **[http://dev.localhost:8000](http://dev.localhos
 
 ---
 
+## Development
+
+This workspace contains the Frappe development environment and several apps. The repository includes a VS Code task that opens three development terminals (Frappe server, app development folder, and frappe-watch).
+
+## VS Code tasks: Start All Development Terminals
+
+A VS Code task is configured at `.vscode/tasks.json` to start three terminals you commonly need during development:
+
+- `Start Frappe Server` — runs `bash start.sh` (starts the bench/server processes)
+- `Open App Development Folder` — opens a shell inside `frappe-bench/apps/<app-name>` (asks for the app name)
+- `Start Frappe Watch` — runs `npx frappe-watch`
+
+A composite task named `Start All Development Terminals` runs all three in parallel and prompts for the app folder name.
+
+How to run the task
+
+1. Open the Command Palette: `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
+2. Type and select `Tasks: Run Task`
+3. Choose `Start All Development Terminals`
+4. When prompted, enter the app folder name (for example: `frappe_brazil_invoice`)
+
+What the task does
+
+- Opens three dedicated integrated terminal panels in VS Code.
+- Terminal 1 runs `bash start.sh` in the workspace root.
+- Terminal 2 runs `cd frappe-bench/apps/<your-app>` and leaves you in a shell in that folder.
+- Terminal 3 runs `npx frappe-watch`.
+
+If you prefer to run tasks individually, select `Start Frappe Server`, `Open App Development Folder`, or `Start Frappe Watch` from the `Tasks: Run Task` list.
+
+Where to find the task configuration
+
+The full task configuration is in `.vscode/tasks.json`.
+
+Example (quick steps to attach manually)
+
+If you ever need to do this manually without the task, open three integrated terminals and run:
+
+```bash
+# Terminal 1
+bash start.sh
+
+# Terminal 2
+cd frappe-bench/apps/frappe_brazil_invoice
+
+# Terminal 3
+npx frappe-watch
+```
+
+Notes
+
+- The task uses VS Code integrated terminals so everything stays inside the editor.
+- The task will prompt for the app folder name when you run the composite task.
+ (See <attachments> above for file contents. You may not need to search or read the file again.)
+
+---
+
 ## 📜 Scripts <a name="scripts"></a>
+
+## <site_name> example: ````dev.localhost```
+
 
 > All scripts are located in the project root and can be executed from within the Dev Container terminal. They will not work on the host machine directly, you must be inside the container.
 
@@ -152,7 +212,16 @@ Your site will be available at **[http://dev.localhost:8000](http://dev.localhos
   ```bash
   bash install-app.sh <site_name> <app_name> <repo_url> <branch>
   ```
+  ## Examples:
 
+  ```bash
+  bash install-app.sh dev.localhost frappe_agt https://github.com/AnyGridTech/frappe_agt
+  ```
+
+  ```bash
+  bash install-app.sh dev.localhost frappe_agt https://github.com/AnyGridTech/frappe_agt main
+  ```
+  
 ---
 
 ### 🧹 `uninstall-app.sh`
