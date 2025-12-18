@@ -81,53 +81,37 @@ The goal is to allow **developers to focus only on coding apps**, without worryi
 
 ### Installing
 1. Clone this repository.
-2. Open it in **VSCode**.
-3. Make sure to install the **Recommended Extensions**.
-4. Make sure to have the **Docker Daemon running** on your machine.
-5. Reopen the project in **Dev Container**.
-  There are three ways to do it:
-   - Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
-   VSCode will use `devcontainer.json` and `docker-compose.yml` to build the environment.
-   - Open the command palette (Ctrl+Shift+P) and select 'Dev Containers: Reopen in Container'.
-   - When opening the project you may see in the bottom right prompting something like 'reopen in **Dev Container**'.
-6. Once inside the container terminal, run:
+2. Open it in **VSCode** and install the **Recommended Extensions**.
+3. Ensure **Docker Desktop** is running on your machine.
+4. **Reopen in Dev Container** (Use `Ctrl+Shift+P` type "Dev Containers: Reopen in Container" and select it).
+5. Once inside the container, initialize the environment:
 ```bash
 bash build.sh
 ```
 
-This will initialize bench, create a default site (`dev.localhost`), and optionally install apps like ERPNext, Payments, LMS, or Frappe Comment AGT.
-
-> To initialize the project bench and be able to use it, please refer to the [Usage Section](#usage) for more details.
+This sets up Frappe bench, creates a default site (`dev.localhost`), and lets you optionally install ERPNext, Payments, LMS, or Frappe Comment AGT.
 
 ---
 
 ## 🎈 Usage <a name="usage"></a>
-- Reopen the project in **Dev Container**. There are three ways to do it:
-  - Access the Dev Container terminal by 'Open Current Folder in Container' option in the Dev Containers tool.  
-   VSCode will use `devcontainer.json` and `docker-compose.yml` to build the environment.
-  - Open the command palette (Ctrl+Shift+P) and select 'Dev Containers: Reopen in Container'.
-  - When opening the project you may see in the bottom right prompting something like 'reopen in **Dev Container**'.
-- Build the environment (if not done yet):
-  ```bash
-  bash build.sh
-  ```
-- Start the environment:
-  ```bash
-  bash start.sh dev.localhost
-  ```
-- Access your site at (First access may take some minutes as Frappe is building assets):  
-  [http://dev.localhost:8000](http://dev.localhost:8000)  
-- Default login (if not overridden):  
-  ```
-  Email: administrator
-  Password: admin
-  ```
 
-> Always use the `start.sh` script to start the environment, as it will ensure all necessary services are running.
+### Daily Workflow
+After reopening the project in the Dev Container, start your development server:
 
-> Always log in using the Administrator user to have full access to all features.
+```bash
+bash start.sh dev.localhost
+```
 
-> To create additional sites, use the `bench new-site <site_name>` command inside the container terminal.
+Your site will be available at **[http://dev.localhost:8000](http://dev.localhost:8000)** (first load may take a few minutes while assets compile).
+
+**Default credentials:**
+- Email: `administrator`
+- Password: `admin`
+
+### Quick Tips
+- 💡 Always use `start.sh` to launch services properly
+- 👤 Log in as Administrator for full system access
+- 🌐 Create additional sites: `bench new-site <site_name>`
 
 ---
 
