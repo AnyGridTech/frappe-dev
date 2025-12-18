@@ -96,20 +96,21 @@ This sets up Frappe bench, creates a default site (`dev.localhost`), and lets yo
 ## 🎈 Usage <a name="usage"></a>
 
 ### Daily Workflow
-After reopening the project in the Dev Container, start your development server:
+After reopening the project in the Dev Container, start your development server using the **Run and Debug** panel in VSCode:
 
-```bash
-bash start.sh dev.localhost
-```
+1. Open the Run and Debug panel (`Ctrl+Shift+D`)
+2. Select **"Honcho + Web debug"** from the dropdown
+3. Click the green play button (or press `F5`)
 
 Your site will be available at **[http://dev.localhost:8000](http://dev.localhost:8000)** (first load may take a few minutes while assets compile).
+
+> ⚠️ **Deprecated:** The `bash start.sh dev.localhost` script is deprecated. Use the VSCode debugger as described above for a better development experience with breakpoint support.
 
 **Default credentials:**
 - Email: `administrator`
 - Password: `admin`
 
 ### Quick Tips
-- 🚀 Use **Run and Debug** panel in VSCode (`Ctrl+Shift+D`) to start services with the `Honcho + Web debug` configuration.
 - 🐞 Use VSCode debugger to set breakpoints in your server-side Python code if running with `Honcho + Web debug`.
 - 📘 Use [**frappe-ts-tools**](https://github.com/anygridtech/frappe-ts-tools) for TypeScript development with automatic bundling, watch mode, and type-checking - see [frappe-ts-tools documentation](https://github.com/anygridtech/frappe-ts-tools#readme)
 - 👤 Log in as Administrator for full system access
