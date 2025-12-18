@@ -109,9 +109,10 @@ Your site will be available at **[http://dev.localhost:8000](http://dev.localhos
 - Password: `admin`
 
 ### Quick Tips
-- 💡 Always use `start.sh` to launch services properly
+- 🚀 Use **Run and Debug** panel in VSCode (`Ctrl+Shift+D`) to start services with the `Honcho + Web debug` configuration.
+- 🐞 Use VSCode debugger to set breakpoints in your server-side Python code if running with `Honcho + Web debug`.
+- 📘 Use [**frappe-ts-tools**](https://github.com/anygridtech/frappe-ts-tools) for TypeScript development with automatic bundling, watch mode, and type-checking - see [frappe-ts-tools documentation](https://github.com/anygridtech/frappe-ts-tools#readme)
 - 👤 Log in as Administrator for full system access
-- 🌐 Create additional sites: `bench new-site <site_name>`
 
 ---
 
