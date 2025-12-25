@@ -35,7 +35,7 @@
       "description": "Frappe Comment AGT - Comment Integration",
       "repo_url": "https://github.com/AnyGridTech/frappe-comment-agt",
       "branch": null,
-      "branch_v15": "develop",
+      "branch_v15": null,
       "prompt": "Do you want to install Frappe Comment AGT?",
       "enabled": true,
       "order": 4
@@ -45,7 +45,7 @@
       "description": "Frappe AGT - AnyGridTech Core Module",
       "repo_url": "https://github.com/AnyGridTech/frappe_agt",
       "branch": null,
-      "branch_v15": "develop",
+      "branch_v15": null,
       "prompt": "Do you want to install Frappe AGT?",
       "enabled": true,
       "order": 5
