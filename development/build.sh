@@ -16,12 +16,59 @@ if [ "$START_BUILD" != "y" ] && [ "$START_BUILD" != "Y" ]; then
   exit 0
 fi
 
-# Ask if wants to install erpnext
+# Ask if wants to use Frappe-bench v15
 read -rp "Use Frappe-bench v15 (Recommended)? (y/n): " USE_BENCH_V15
-read -rp "Do you want to install ERPNext? (y/n): " INSTALL_ERPNEXT
-read -rp "Do you want to install Payments? (y/n): " INSTALL_PAYMENTS
-read -rp "Do you want to install Learning Management System (LMS)? (y/n): " INSTALL_ELEARNING
-read -rp "Do you want to install Frappe Comment AGT? (y/n): " INSTALL_COMMENT_AGT
+
+# Load apps configuration
+CONFIG_FILE="$DEV_DIR/apps.config.json"
+
+if [ ! -f "$CONFIG_FILE" ]; then
+  echo "⚠️  Config file not found: $CONFIG_FILE"
+  echo "Creating default config file..."
+  # Will be created if it doesn't exist
+fi
+
+# Check if jq is installed
+if ! command -v jq &> /dev/null; then
+  echo "⚠️  jq is not installed. Installing jq..."
+  apt-get update && apt-get install -y jq
+fi
+
+# Update config file with v15 setting
+if [ -f "$CONFIG_FILE" ]; then
+  echo "📝 Updating configuration with version preference..."
+  jq ".settings.use_bench_v15 = $([ "$USE_BENCH_V15" == "y" ] || [ "$USE_BENCH_V15" == "Y" ] && echo "true" || echo "false")" "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+fi
+
+# Ask about each app and update config
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📦 APP SELECTION"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+if [ -f "$CONFIG_FILE" ]; then
+  # Read each app and ask user
+  jq -r '.apps[] | @json' "$CONFIG_FILE" | while IFS= read -r app; do
+    app_name=$(echo "$app" | jq -r '.name')
+    prompt=$(echo "$app" | jq -r '.prompt')
+    
+    read -rp "$prompt (y/n): " INSTALL_APP
+    
+    if [ "$INSTALL_APP" == "y" ] || [ "$INSTALL_APP" == "Y" ]; then
+      # Update the config to enable this app
+      jq "(.apps[] | select(.name == \"$app_name\") | .enabled) = true" "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+      echo "✅ $app_name will be installed"
+    else
+      # Update the config to disable this app
+      jq "(.apps[] | select(.name == \"$app_name\") | .enabled) = false" "$CONFIG_FILE" > "$CONFIG_FILE.tmp" && mv "$CONFIG_FILE.tmp" "$CONFIG_FILE"
+      echo "⏭️  $app_name will be skipped"
+    fi
+  done
+fi
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
 # Check if frappe-bench folder exists
 
 DEV_DIR="/workspace/development"
@@ -111,39 +158,14 @@ echo "✅ Cache cleared."
 
 cd "$DEV_DIR"
 
-if [ "$INSTALL_ERPNEXT" == "y" ] || [ "$INSTALL_ERPNEXT" == "Y" ]; then
-  echo "Installing ERPNext..."
-  CMD_ERP_SETUP="bash install-app.sh \"$SITE_NAME\" erpnext https://github.com/frappe/erpnext"
-  if [ "$USE_BENCH_V15" == "y" ] || [ "$USE_BENCH_V15" == "Y" ]; then
-    echo "Using v15"
-    CMD_ERP_SETUP+=" version-15"
-  fi
-  eval "$CMD_ERP_SETUP"
-  echo "✅ ERPNext installation completed."
-fi
+# Install apps from configuration
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📦 INSTALLING APPS FROM CONFIGURATION"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
 
-if [ "$INSTALL_PAYMENTS" == "y" ] || [ "$INSTALL_PAYMENTS" == "Y" ]; then
-  echo "Installing Payments..."
-  CMD_PAYMENTS_SETUP="bash install-app.sh \"$SITE_NAME\" payments https://github.com/frappe/payments"
-  if [ "$USE_BENCH_V15" == "y" ] || [ "$USE_BENCH_V15" == "Y" ]; then
-    echo "Using v15"
-    CMD_PAYMENTS_SETUP+=" version-15"
-  fi
-  eval "$CMD_PAYMENTS_SETUP"
-  echo "✅ Payments installation completed."
-fi
-
-if [ "$INSTALL_ELEARNING" == "y" ] || [ "$INSTALL_ELEARNING" == "Y" ]; then
-  echo "Installing Learning Management System (LMS)..."
-  bash install-app.sh "$SITE_NAME" lms https://github.com/frappe/lms
-  echo "✅ LMS installation completed."
-fi
-
-if [ "$INSTALL_COMMENT_AGT" == "y" ] || [ "$INSTALL_COMMENT_AGT" == "Y" ]; then
-  echo "Installing Frappe Comment AGT..."
-  bash install-app.sh "$SITE_NAME" frappe_comment_agt https://github.com/AnyGridTech/frappe-comment-agt
-  echo "✅ Frappe Comment AGT installation completed."
-fi
+bash install-apps-from-config.sh "$SITE_NAME" "$USE_BENCH_V15"
 
 echo "✅ Build process completed successfully!"
 
