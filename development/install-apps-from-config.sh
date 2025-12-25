@@ -104,8 +104,7 @@ echo ""
 current=0
 
 # Read and sort apps by order, then recursively install each enabled app
-jq -r '.apps[] | select(.enabled == true) | @json' "$CONFIG_FILE" | \
-  jq -s 'sort_by(.order)[]' | \
+jq -r '[.apps[] | select(.enabled == true)] | sort_by(.order)[] | @json' "$CONFIG_FILE" | \
   while IFS= read -r app; do
     current=$((current + 1))
     

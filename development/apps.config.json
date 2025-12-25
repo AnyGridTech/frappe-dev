@@ -7,7 +7,7 @@
       "branch": "version-15",
       "branch_v15": "version-15",
       "prompt": "Do you want to install ERPNext?",
-      "enabled": false,
+      "enabled": true,
       "order": 1
     },
     {
@@ -35,9 +35,9 @@
       "description": "Frappe Comment AGT - Comment Integration",
       "repo_url": "https://github.com/AnyGridTech/frappe-comment-agt",
       "branch": null,
-      "branch_v15": null,
+      "branch_v15": "develop",
       "prompt": "Do you want to install Frappe Comment AGT?",
-      "enabled": false,
+      "enabled": true,
       "order": 4
     },
     {
@@ -45,9 +45,9 @@
       "description": "Frappe AGT - AnyGridTech Core Module",
       "repo_url": "https://github.com/AnyGridTech/frappe_agt",
       "branch": null,
-      "branch_v15": null,
+      "branch_v15": "develop",
       "prompt": "Do you want to install Frappe AGT?",
-      "enabled": false,
+      "enabled": true,
       "order": 5
     },
     {
@@ -55,9 +55,9 @@
       "description": "Frappe Brazil Invoice - Brazilian Invoice Management",
       "repo_url": "https://github.com/AnyGridTech/frappe_brazil_invoice",
       "branch": null,
-      "branch_v15": null,
+      "branch_v15": "develop",
       "prompt": "Do you want to install Frappe Brazil Invoice?",
-      "enabled": false,
+      "enabled": true,
       "order": 6
     },
     {
@@ -65,9 +65,9 @@
       "description": "Frappe Brazil Logistics - Brazilian Logistics Management",
       "repo_url": "https://github.com/AnyGridTech/frappe_brazil_logistics",
       "branch": null,
-      "branch_v15": null,
+      "branch_v15": "develop",
       "prompt": "Do you want to install Frappe Brazil Logistics?",
-      "enabled": false,
+      "enabled": true,
       "order": 7
     }
   ],
