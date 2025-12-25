@@ -1,0 +1,79 @@
+{
+  "apps": [
+    {
+      "name": "erpnext",
+      "description": "ERPNext - Enterprise Resource Planning",
+      "repo_url": "https://github.com/frappe/erpnext",
+      "branch": "version-15",
+      "branch_v15": "version-15",
+      "prompt": "Do you want to install ERPNext?",
+      "enabled": false,
+      "order": 1
+    },
+    {
+      "name": "payments",
+      "description": "Payments - Payment Gateway Integration",
+      "repo_url": "https://github.com/frappe/payments",
+      "branch": "version-15",
+      "branch_v15": "version-15",
+      "prompt": "Do you want to install Payments?",
+      "enabled": false,
+      "order": 2
+    },
+    {
+      "name": "lms",
+      "description": "LMS - Learning Management System",
+      "repo_url": "https://github.com/frappe/lms",
+      "branch": null,
+      "branch_v15": null,
+      "prompt": "Do you want to install Learning Management System (LMS)?",
+      "enabled": false,
+      "order": 3
+    },
+    {
+      "name": "frappe_comment_agt",
+      "description": "Frappe Comment AGT - Comment Integration",
+      "repo_url": "https://github.com/AnyGridTech/frappe-comment-agt",
+      "branch": null,
+      "branch_v15": null,
+      "prompt": "Do you want to install Frappe Comment AGT?",
+      "enabled": false,
+      "order": 4
+    },
+    {
+      "name": "frappe_agt",
+      "description": "Frappe AGT - AnyGridTech Core Module",
+      "repo_url": "https://github.com/AnyGridTech/frappe_agt",
+      "branch": null,
+      "branch_v15": null,
+      "prompt": "Do you want to install Frappe AGT?",
+      "enabled": false,
+      "order": 5
+    },
+    {
+      "name": "frappe_brazil_invoice",
+      "description": "Frappe Brazil Invoice - Brazilian Invoice Management",
+      "repo_url": "https://github.com/AnyGridTech/frappe_brazil_invoice",
+      "branch": null,
+      "branch_v15": null,
+      "prompt": "Do you want to install Frappe Brazil Invoice?",
+      "enabled": false,
+      "order": 6
+    },
+    {
+      "name": "frappe_brazil_logistics",
+      "description": "Frappe Brazil Logistics - Brazilian Logistics Management",
+      "repo_url": "https://github.com/AnyGridTech/frappe_brazil_logistics",
+      "branch": null,
+      "branch_v15": null,
+      "prompt": "Do you want to install Frappe Brazil Logistics?",
+      "enabled": false,
+      "order": 7
+    }
+  ],
+  "settings": {
+    "use_bench_v15": true,
+    "auto_clear_cache": true,
+    "auto_migrate": true
+  }
+}
