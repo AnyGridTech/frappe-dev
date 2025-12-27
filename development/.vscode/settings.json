@@ -1,7 +1,7 @@
 {
   "python.defaultInterpreterPath": "${workspaceFolder}/frappe-bench/env/bin/python",
   "[python]": {
-    "editor.defaultFormatter": "ms-python.vscode-pylance",
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
   "python.formatting.blackPath": "${workspaceFolder}/frappe-bench/env/bin/black"
