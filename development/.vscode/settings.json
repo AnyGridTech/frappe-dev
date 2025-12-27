@@ -1,7 +1,7 @@
 {
   "python.defaultInterpreterPath": "${workspaceFolder}/frappe-bench/env/bin/python",
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "ms-python.python",
     "editor.formatOnSave": true
   },
   "python.formatting.blackPath": "${workspaceFolder}/frappe-bench/env/bin/black"
