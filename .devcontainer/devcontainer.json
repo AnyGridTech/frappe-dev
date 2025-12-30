@@ -1,3 +1,4 @@
+
 {
   "name": "Frappe Bench",
   "forwardPorts": [8000, 9000, 6787],
@@ -25,8 +26,5 @@
   "dockerComposeFile": "./docker-compose.yml",
   "service": "frappe",
   "workspaceFolder": "/workspace/development",
-  "shutdownAction": "stopCompose",
-  "mounts": [
-    "source=${localEnv:USERPROFILE}/.ssh,target=/home/frappe/.ssh,type=bind,consistency=cached"
-  ]
+  "shutdownAction": "stopCompose"
 }
