@@ -98,7 +98,7 @@ BENCH_DIR="$DEV_DIR/frappe-bench"
 
 if [ ! -d "$BENCH_DIR" ]; then
   echo "Starting bench setup..."
-  CMD_BENCH_SETUP="bench init --skip-redis-config-generation frappe-bench"
+  CMD_BENCH_SETUP="bench init --skip-redis-config-generation --python /usr/bin/python3.11 frappe-bench"
   if [ "$USE_BENCH_V15" == "y" ] || [ "$USE_BENCH_V15" == "Y" ]; then
     echo "Using Frappe-bench v15"
     CMD_BENCH_SETUP+=" --frappe-branch version-15"
