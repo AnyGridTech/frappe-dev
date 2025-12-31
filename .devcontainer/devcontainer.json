@@ -1,4 +1,3 @@
-
 {
   "name": "Frappe Bench",
   "forwardPorts": [8000, 9000, 6787],
