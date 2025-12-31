@@ -104,7 +104,7 @@ if [ ! -d "$BENCH_DIR" ]; then
   else
     PYTHON_BIN="python3"
   fi
-  CMD_BENCH_SETUP="bench init --skip-redis-config-generation --python \"$PYTHON_BIN\" frappe-bench"
+  CMD_BENCH_SETUP="bench init --skip-redis-config-generation --python $PYTHON_BIN frappe-bench"
   if [ "$USE_BENCH_V15" == "y" ] || [ "$USE_BENCH_V15" == "Y" ]; then
     echo "Using Frappe-bench v15"
     CMD_BENCH_SETUP+=" --frappe-branch version-15"
