@@ -4,5 +4,12 @@
     "editor.defaultFormatter": "ms-python.python",
     "editor.formatOnSave": true
   },
-  "python.formatting.blackPath": "${workspaceFolder}/frappe-bench/env/bin/black"
+  "python.formatting.blackPath": "${workspaceFolder}/frappe-bench/env/bin/black",
+  "git.autoRepositoryDetection": true,
+  "git.detectSubmodules": true,
+  "git.detectSubmodulesLimit": 20,
+  "git.repositoryScanMaxDepth": 3,
+  "git.scanRepositories": [
+    "${workspaceFolder}/frappe-bench/apps"
+  ]
 }

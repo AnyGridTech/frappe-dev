@@ -98,7 +98,13 @@ BENCH_DIR="$DEV_DIR/frappe-bench"
 
 if [ ! -d "$BENCH_DIR" ]; then
   echo "Starting bench setup..."
-  CMD_BENCH_SETUP="bench init --skip-redis-config-generation frappe-bench"
+  # Determine which Python interpreter to use (prefer python3.11 if available)
+  if command -v python3.11 >/dev/null 2>&1; then
+    PYTHON_BIN="python3.11"
+  else
+    PYTHON_BIN="python3"
+  fi
+  CMD_BENCH_SETUP="bench init --skip-redis-config-generation --python $PYTHON_BIN frappe-bench"
   if [ "$USE_BENCH_V15" == "y" ] || [ "$USE_BENCH_V15" == "Y" ]; then
     echo "Using Frappe-bench v15"
     CMD_BENCH_SETUP+=" --frappe-branch version-15"
